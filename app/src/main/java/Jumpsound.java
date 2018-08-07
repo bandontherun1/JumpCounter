@@ -13,7 +13,7 @@ class Jumpsound {
     }
 
     private String sanitizePath(String path) {
-        if (!path.startswith("/")) {
+        if (!path.startsWith("/")) {
             path = "/" + path;
         }
 
@@ -36,11 +36,16 @@ class Jumpsound {
         }
         myjumpsound.setAudioSource(MediaRecorder.AudioSource.MIC);
         myjumpsound.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        myjumpsound.setAudioEncorder(MediaRecorder.AudioEncoder.AMR_NB);
+        myjumpsound.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         myjumpsound.setOutputFile(path);
         myjumpsound.prepare();
         myjumpsound.start();
     }
 
+    public void stop() throws IOException {
+        myjumpsound.stop();
+        myjumpsound.release();
+
+    }
 
 }

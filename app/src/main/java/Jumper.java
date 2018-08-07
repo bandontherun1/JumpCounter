@@ -16,17 +16,11 @@ class Jumper {
     Date  startTime; // when jumper starts counting
     Date  endTime; // when jumper stops counting
 
-    Jumper init(float height, float weight) {
-        mjumper = new Jumper;
-
-        if (!myjumper) {
-            mjumper.height = height;
-            mjumper.weight = weight;
-        }
-
-        return mjumper;
-
+    public Jumper(float height, float weight) {
+        this.height = height;
+        this.weight = weight;
     }
+
 
     void set(float caloriesunit) {
         this.caloriespermin = caloriesunit;
