@@ -8,10 +8,12 @@ import java.util.Date;
 class Jumper {
     float height; // jumper's height
     float weight; // jumper's weight
+    String gender;
     float jumpingspeed; // jumps per minute
     float caloriespermin;
     float caloriestotal; // = jumpingspeed x caloriespermin
     int   totaljumps;
+
     Jumpsound mjumpsound; // recorded jumpsound data
     Date  startTime; // when jumper starts counting
     Date  endTime; // when jumper stops counting
