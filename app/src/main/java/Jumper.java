@@ -6,9 +6,11 @@
 import java.util.Date;
 
 class Jumper {
+    String name;
+    String gender;
     float height; // jumper's height
     float weight; // jumper's weight
-    String gender;
+
     float jumpingspeed; // jumps per minute
     float caloriespermin;
     float caloriestotal; // = jumpingspeed x caloriespermin

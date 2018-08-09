@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Jumper</string>
-    <string name="Weight">Weight</string>
-    <string name="Height">Height</string>
-    <string name="Gender">Gender</string>
+    <string name="Weight">Weight (lbs.oz)</string>
+    <string name="Height">Height (ft.in)</string>
+    <string name="Gender">Gender (M/F)</string>
     <string name="OK">OK</string>
+    <string name="Name">Name</string>
 </resources>
