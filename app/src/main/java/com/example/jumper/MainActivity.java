@@ -10,4 +10,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+    protected void onBtnClicked() {
+        collectJumperData();
+        if (validateJumperData())
+            createJumper();
+
+
+
+    }
+
+    private void collectJumperData() {
+
+    }
+
+    private Boolean validateJumperData() {
+
+        return Boolean.TRUE;
+    }
+
+    private int createJumper(){
+        return 1;
+
+    }
 }
