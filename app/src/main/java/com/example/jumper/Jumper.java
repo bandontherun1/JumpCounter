@@ -1,7 +1,9 @@
-/*
- * Jumper class
- * Jumper is created when user input height and weight data and it should persist app relaunch
+package com.example.jumper;/*
+ * com.example.jumper.Jumper class
+ * com.example.jumper.Jumper is created when user input height and weight data and it should persist app relaunch
  */
+
+import com.example.jumper.Jumpsound;
 
 import java.util.Date;
 

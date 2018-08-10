@@ -22,17 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void collectJumperData() {
+    private Jumper collectJumperData() {
         EditText mName;
         mName = (EditText) findViewById(R.id.jumperName);
         String myName = mName.getText().toString();
         EditText mGender;
-        mGender = (EditText) findViewById(R.id.gender);
+        mGender = (EditText) findViewById(R.id.jumperGender);
         String myGender = mGender.getText().toString();
         EditText mWeight = (EditText) findViewById(R.id.jumperWeight);
         float myWeight = Float.valueOf(mWeight.getText().toString());
         EditText mHeight = (EditText) findViewById(R.id.jumperHeight);
         float myHeight = Float.valueOf(mHeight.getText().toString());
+        Jumper myJumper = new Jumper(myHeight, myWeight);
+        return myJumper;
 
 
     }

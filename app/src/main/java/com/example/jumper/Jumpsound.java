@@ -1,3 +1,5 @@
+package com.example.jumper;
+
 import android.media.MediaRecorder;
 import android.os.Environment;
 

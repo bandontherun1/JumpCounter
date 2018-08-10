@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jumper</string>
+    <string name="app_name">com.example.jumper.Jumper</string>
     <string name="Weight">Weight (lbs.oz)</string>
     <string name="Height">Height (ft.in)</string>
     <string name="Gender">Gender (M/F)</string>
