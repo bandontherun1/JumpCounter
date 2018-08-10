@@ -22,7 +22,9 @@ class Jumper {
     Date  startTime; // when jumper starts counting
     Date  endTime; // when jumper stops counting
 
-    public Jumper(float height, float weight) {
+    public Jumper(String name, String gender, float height, float weight) {
+        this.name = name;
+        this.gender = gender;
         this.height = height;
         this.weight = weight;
     }

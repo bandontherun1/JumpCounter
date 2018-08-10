@@ -13,11 +13,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    protected void onBtnClicked(View v) {
-        collectJumperData();
+    protected Jumper onBtnClicked(View v) {
+        Jumper me = collectJumperData();
         if (validateJumperData())
             createJumper();
 
+        return me;
 
 
     }
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         float myWeight = Float.valueOf(mWeight.getText().toString());
         EditText mHeight = (EditText) findViewById(R.id.jumperHeight);
         float myHeight = Float.valueOf(mHeight.getText().toString());
-        Jumper myJumper = new Jumper(myHeight, myWeight);
+        Jumper myJumper = new Jumper(myName, myGender, myHeight, myWeight);
         return myJumper;
 
 
