@@ -1,12 +1,16 @@
 package com.example.jumper;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-class Jumpsound {
+class Jumpsound implements Serializable {
     final MediaRecorder myjumpsound = new MediaRecorder();
     public final String path;
 
@@ -36,12 +40,15 @@ class Jumpsound {
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException("Path to file could not be created.");
         }
+
+
         myjumpsound.setAudioSource(MediaRecorder.AudioSource.MIC);
         myjumpsound.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myjumpsound.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         myjumpsound.setOutputFile(path);
         myjumpsound.prepare();
         myjumpsound.start();
+
     }
 
     public void stop() throws IOException {

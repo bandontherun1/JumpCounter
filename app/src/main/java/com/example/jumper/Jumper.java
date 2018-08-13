@@ -5,9 +5,10 @@ package com.example.jumper;/*
 
 import com.example.jumper.Jumpsound;
 
+import java.io.Serializable;
 import java.util.Date;
 
-class Jumper {
+class Jumper implements Serializable {
     String name;
     String gender;
     float height; // jumper's height
