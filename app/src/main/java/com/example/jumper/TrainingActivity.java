@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import java.io.IOException;
 
@@ -27,14 +28,21 @@ public class TrainingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         me = (Jumper) intent.getSerializableExtra("jumperobject");
     }
+    protected void onStopClicked(View v) {
+        if (me != null) {
 
+            try {
+                me.mjumpsound.stop();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
     protected void onTrainClicked(View v) {
 
-        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECORD_AUDIO },
-                    10);
-        }*/
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -86,17 +94,14 @@ public class TrainingActivity extends AppCompatActivity {
         }
 
         if (me != null) {
-            /*
-            AudioRecord recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                    8000, AudioFormat.CHANNEL_CONFIGURATION_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, 500000);
-            recorder.startRecording();
-            */
+            Button stopB = findViewById(R.id.stopTrainB);
+            Button trainB = findViewById(R.id.trainB);
+            trainB.setVisibility(View.INVISIBLE);
+            stopB.setVisibility(View.VISIBLE);
 
             me.mjumpsound = new Jumpsound("/jumperdata");
             try {
                 me.mjumpsound.start();
-                me.mjumpsound.stop();
             } catch (IOException e) {
                 e.printStackTrace();
 
