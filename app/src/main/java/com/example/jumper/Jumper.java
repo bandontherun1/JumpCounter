@@ -9,15 +9,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 class Jumper implements Serializable {
-    String name;
-    String gender;
+    String name; // jumper's name
+    String gender; // jumper's gender
     float height; // jumper's height
     float weight; // jumper's weight
 
-    float jumpingspeed; // jumps per minute
-    float caloriespermin;
+    float jumpingspeed; // jumps per minute; calculated on the fly
+    float caloriespermin; // should be set as constant
     float caloriestotal; // = jumpingspeed x caloriespermin
-    int   totaljumps;
+    int   totaljumps; // calculated on the fly
 
     Jumpsound mjumpsound; // recorded jumpsound data
     Date  startTime; // when jumper starts counting
