@@ -10,10 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class activity_StartJump extends AppCompatActivity {
-    final int AMPLITUTE_THRESHOLD = 30000;
-    final int mInterval = 200;
+    final int AMPLITUDE_THRESHOLD = 20000;
+    final int mInterval = 10;
+
+    private ArrayList<Integer> trainedJump;
+    private ArrayList<Integer> tempJump = new ArrayList<>();
+    private boolean inJump = false;
 
     int count = 0;
     private Handler myHandler = new Handler();
@@ -30,7 +35,7 @@ public class activity_StartJump extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
         Intent intent = getIntent();
-     //   myjumper = (Jumper) intent.getSerializableExtra("jumpStartobject");
+        trainedJump = (ArrayList<Integer>) intent.getSerializableExtra("trainedJump");
 
     }
 
@@ -87,18 +92,42 @@ public class activity_StartJump extends AppCompatActivity {
     protected void startCounting(MediaRecorder myJump) {
 
         if (myJump != null) {
-            int amplitute = myJump.getMaxAmplitude();
-            if (amplitute > max)
-                max = amplitute;
-            if (max > max2)
-                max2 = max;
+            int amplitude = myJump.getMaxAmplitude();
+//            if (amplitude > max)
+//                max = amplitude;
+//            if (max > max2)
+//                max2 = max;
 
-
-            if (amplitute > AMPLITUTE_THRESHOLD) {
-                count++;
-                counter.setText(count+"");
+            // Jump detected; set inJump to true to start saving pattern
+            if (amplitude > AMPLITUDE_THRESHOLD && tempJump.size() == 0) {
+                inJump = true;
+                System.out.println(amplitude);
             }
+
+            // Jump ended; stop saving pattern, detect if jump matches pattern and clear array
+            else if (amplitude < AMPLITUDE_THRESHOLD) {
+                inJump = false;
+                if (tempJump.size() > 0 && isJump(tempJump)) {
+                    count++;
+                    counter.setText(count + "");
+                }
+                tempJump.clear();
+            }
+
+            if (inJump)
+                tempJump.add(amplitude);
+
+//            if (amplitude > AMPLITUDE_THRESHOLD) {
+//                count++;
+//                counter.setText(count + "");
+//            }
         }
 
+    }
+
+    protected boolean isJump(ArrayList<Integer> jump) {
+        System.out.println("Trained: " + trainedJump);
+        System.out.println("Test" + jump);
+        return false;
     }
 }

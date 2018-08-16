@@ -15,13 +15,14 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
-    final int AMPLITUDE_THRESHOLD = 30000;
+    final int AMPLITUDE_THRESHOLD = 20000;
     final int mInterval = 20;
 
     private boolean inJump = false;
@@ -41,13 +42,15 @@ public class TrainingActivity extends AppCompatActivity {
 
             try {
                 me.mjumpsound.stop();
+                stopRepeatingTask();
+
             } catch (IOException e) {
                 e.printStackTrace();
 
             }
 
             Intent intent = new Intent(this, activity_StartJump.class);
-          //  intent.putExtra("jumpStartobject", me);
+            intent.putExtra("trainedJump", trainedJump);
             startActivity(intent);
 
         }
@@ -127,6 +130,10 @@ public class TrainingActivity extends AppCompatActivity {
         mStatusChecker.run();
     }
 
+    void stopRepeatingTask() {
+        myHandler.removeCallbacks(mStatusChecker);
+    }
+
     Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
@@ -143,11 +150,16 @@ public class TrainingActivity extends AppCompatActivity {
     protected void startTraining(MediaRecorder trainer) {
         if (trainer != null) {
             int amplitude = trainer.getMaxAmplitude();
+
+            // Jump detected; set inJump to true to start saving pattern
             if (amplitude > AMPLITUDE_THRESHOLD && trainedJump.size() == 0)
                 inJump = true;
+
+            // Jump ended; stop saving pattern
             else if (amplitude < AMPLITUDE_THRESHOLD)
                 inJump = false;
 
+            // Save amplitude point to arraylist
             if (inJump)
                 trainedJump.add(amplitude);
         }
