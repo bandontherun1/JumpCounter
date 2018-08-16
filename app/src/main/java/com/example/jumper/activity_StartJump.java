@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class activity_StartJump extends AppCompatActivity {
     final int AMPLITUDE_THRESHOLD = 20000;
-    final int mInterval = 10;
+    final int mInterval = 20;
 
     private ArrayList<Integer> trainedJump;
     private ArrayList<Integer> tempJump = new ArrayList<>();
@@ -99,10 +99,8 @@ public class activity_StartJump extends AppCompatActivity {
 //                max2 = max;
 
             // Jump detected; set inJump to true to start saving pattern
-            if (amplitude > AMPLITUDE_THRESHOLD && tempJump.size() == 0) {
+            if (amplitude > AMPLITUDE_THRESHOLD && tempJump.size() == 0)
                 inJump = true;
-                System.out.println(amplitude);
-            }
 
             // Jump ended; stop saving pattern, detect if jump matches pattern and clear array
             else if (amplitude < AMPLITUDE_THRESHOLD) {
