@@ -38,6 +38,10 @@ public class TrainingActivity extends AppCompatActivity {
 
             }
 
+            Intent intent = new Intent(this, activity_StartJump.class);
+          //  intent.putExtra("jumpStartobject", me);
+            startActivity(intent);
+
         }
 
     }
