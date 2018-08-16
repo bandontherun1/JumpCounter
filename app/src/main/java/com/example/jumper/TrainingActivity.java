@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +15,18 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
+    final int AMPLITUDE_THRESHOLD = 30000;
+    final int mInterval = 20;
+
+    private boolean inJump = false;
+    public ArrayList<Integer> trainedJump = new ArrayList<>();
+    private Handler myHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +114,42 @@ public class TrainingActivity extends AppCompatActivity {
             me.mjumpsound = new Jumpsound("/jumperdata");
             try {
                 me.mjumpsound.start();
+                startRepeatingTask();
             } catch (IOException e) {
                 e.printStackTrace();
 
             }
 
+        }
+    }
+
+    void startRepeatingTask() {
+        mStatusChecker.run();
+    }
+
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                startTraining(me.mjumpsound.myjumpsound);
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                myHandler.postDelayed(mStatusChecker, mInterval);
+            }
+        }
+    };
+
+    protected void startTraining(MediaRecorder trainer) {
+        if (trainer != null) {
+            int amplitude = trainer.getMaxAmplitude();
+            if (amplitude > AMPLITUDE_THRESHOLD && trainedJump.size() == 0)
+                inJump = true;
+            else if (amplitude < AMPLITUDE_THRESHOLD)
+                inJump = false;
+
+            if (inJump)
+                trainedJump.add(amplitude);
         }
     }
 }
