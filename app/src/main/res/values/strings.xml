@@ -8,4 +8,5 @@
     <string name="Train">Train</string>
     <string name="StopTrain">Stop</string>
     <string name="StartJump">StartJump</string>
+    <string name="StopJump">StopJump</string>
 </resources>

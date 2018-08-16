@@ -7,7 +7,7 @@
     tools:context=".activity_StartJump">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/startJumpB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/StartJump"
@@ -27,5 +27,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/startJumpB" />
+
+    <Button
+        android:id="@+id/stopJumpB"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="onJumpStopClicked"
+        android:text="@string/StopJump"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.48" />
 </android.support.constraint.ConstraintLayout>

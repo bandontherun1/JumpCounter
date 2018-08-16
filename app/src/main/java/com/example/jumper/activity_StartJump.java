@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class activity_StartJump extends AppCompatActivity {
     int max = 0;
     int max2 = 0;
     TextView counter;
+    Button jumpStartB;
+    Button jumpStopB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class activity_StartJump extends AppCompatActivity {
     protected void onJumpStartClicked(View v) {
         // open /dev/null for not saving the mic data
         counter = findViewById(R.id.count);
+        jumpStartB = findViewById(R.id.startJumpB);
+        jumpStopB = findViewById(R.id.stopJumpB);
+
+        jumpStartB.setVisibility(View.INVISIBLE);
+        jumpStopB.setVisibility(View.VISIBLE);
 
         if (myJump != null) {
             try {
@@ -42,10 +50,17 @@ public class activity_StartJump extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-           // startCounting(myJump.myjumpsound);
+            // startCounting(myJump.myjumpsound);
             startRepeatingTask();
 
         }
+
+    }
+
+    protected void onJumpStopClicked(View v) {
+        jumpStopB.setVisibility(View.INVISIBLE);
+        stopRepeatingTask();
+        counter.setText(count+"");
 
     }
 
