@@ -22,10 +22,7 @@ public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
-<<<<<<< HEAD
-=======
 
->>>>>>> b42fd0fe37e2499e1ff7992f1cfbc7ee21660186
     final int AMPLITUDE_THRESHOLD_MAX = 32767;
     private int AMPLITUDE_THRESHOLD_HIGH = 25000;
     final int AMPLITUDE_THRESHOLD_LOW = 5000;
