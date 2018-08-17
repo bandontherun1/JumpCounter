@@ -191,11 +191,12 @@ public class TrainingActivity extends AppCompatActivity {
                         if (trainedJump.size() > 1) { // print the leading jump sound
                             count++; // as the previous sound will not tampering off
                             totalAmplitude += trainedJump.get(0);
-                            trainedJump.clear();
 
                             System.out.println(count);
                             System.out.println(trainedJump);
                             System.out.println("competing sounds Jump size = " + trainedJump.size());
+
+                            trainedJump.clear();
                         }
 
 //                        inJump = true; // in a new jump
