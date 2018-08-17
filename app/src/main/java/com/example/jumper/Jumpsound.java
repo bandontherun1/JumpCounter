@@ -45,7 +45,9 @@ class Jumpsound implements Serializable {
         myjumpsound.setAudioSource(MediaRecorder.AudioSource.MIC);
         myjumpsound.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myjumpsound.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        myjumpsound.setOutputFile(path);
+        myjumpsound.setAudioSamplingRate(44100);
+     //   myjumpsound.setOutputFile(path);
+        myjumpsound.setOutputFile("/dev/null");
         myjumpsound.prepare();
         myjumpsound.start();
 

@@ -22,10 +22,17 @@ public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
-    final int AMPLITUDE_THRESHOLD = 20000;
+    final int AMPLITUDE_THRESHOLD_MAX = 32767;
+    final int AMPLITUDE_THRESHOLD_HIGH = 25000;
+    final int AMPLITUDE_THRESHOLD_LOW = 5000;
+    final int AMPLITUDE_OFFSET = 5000;
     final int mInterval = 20;
 
+    int count=0;
+
     private boolean inJump = false;
+    private boolean maxReached = false;
+    private int leadingAmplitude = 0;
     public ArrayList<Integer> trainedJump = new ArrayList<>();
     private Handler myHandler = new Handler();
 
@@ -152,16 +159,47 @@ public class TrainingActivity extends AppCompatActivity {
             int amplitude = trainer.getMaxAmplitude();
 
             // Jump detected; set inJump to true to start saving pattern
-            if (amplitude > AMPLITUDE_THRESHOLD && trainedJump.size() == 0)
+            // trainedJump.size condition allow only one capture of the sound
+            if (amplitude > AMPLITUDE_THRESHOLD_HIGH && trainedJump.size() == 0) {
                 inJump = true;
-
+            }
             // Jump ended; stop saving pattern
-            else if (amplitude < AMPLITUDE_THRESHOLD)
-                inJump = false;
+            else if (amplitude < AMPLITUDE_THRESHOLD_LOW) {
+                if (inJump) {
+                    // capture the fading off amplitude
+                    System.out.println(++count);
+                    trainedJump.add(amplitude);
+                    System.out.println(trainedJump);
+                    System.out.println("fading off sound Jump size = " + trainedJump.size());
+
+                    inJump = false;
+                    trainedJump.clear();
+                }
+
+            }
 
             // Save amplitude point to arraylist
-            if (inJump)
-                trainedJump.add(amplitude);
+            if (inJump) {
+              //  System.out.println(">>>> " + amplitude);
+                if (amplitude > leadingAmplitude && amplitude - leadingAmplitude > AMPLITUDE_OFFSET) { // it is probably a new sound
+                    if (amplitude > AMPLITUDE_THRESHOLD_HIGH) { // record the new sound
+                        if (trainedJump.size() > 1) { // print the leading jump sound
+                            System.out.println(trainedJump);
+                            System.out.println("competing sounds Jump size = " + trainedJump.size());
+                            count++; // as the previous sound will not tampering off
+                            trainedJump.clear();
+                        }
+
+//                        inJump = true; // in a new jump
+                        trainedJump.add(amplitude);
+                        leadingAmplitude = amplitude;
+                    }
+
+                } else {
+                    trainedJump.add(amplitude);
+                    leadingAmplitude = amplitude;
+                }
+            }
         }
     }
 }
