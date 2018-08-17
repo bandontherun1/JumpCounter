@@ -22,7 +22,7 @@ public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
-    final int AMPLITUDE_THRESHOLD = 20000;
+    final int AMPLITUDE_THRESHOLD = 1000;
     final int mInterval = 20;
 
     private boolean inJump = false;
