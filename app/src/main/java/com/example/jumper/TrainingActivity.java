@@ -41,6 +41,7 @@ public class TrainingActivity extends AppCompatActivity {
 
             try {
                 me.mjumpsound.stop();
+                stopRepeatingTask();
             } catch (IOException e) {
                 e.printStackTrace();
 
@@ -151,5 +152,8 @@ public class TrainingActivity extends AppCompatActivity {
             if (inJump)
                 trainedJump.add(amplitude);
         }
+    }
+    void stopRepeatingTask() {
+        myHandler.removeCallbacks(mStatusChecker);
     }
 }
