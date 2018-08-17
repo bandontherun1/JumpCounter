@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class activity_StartJump extends AppCompatActivity {
-    final int AMPLITUDE_THRESHOLD = 1000;
+    private int leadingAmplitude = 0;
+    private int AMPLITUDE_THRESHOLD_HIGH = 0;
+    final int AMPLITUDE_THRESHOLD_LOW = 5000;
+    final int AMPLITUDE_OFFSET = 5000;
     final int mInterval = 20;
 
     private ArrayList<Integer> trainedJump;
@@ -35,8 +38,7 @@ public class activity_StartJump extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
         Intent intent = getIntent();
-        trainedJump = (ArrayList<Integer>) intent.getSerializableExtra("trainedJump");
-
+        AMPLITUDE_THRESHOLD_HIGH = (int) intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH");
     }
 
     protected void onJumpStartClicked(View v) {
@@ -93,39 +95,50 @@ public class activity_StartJump extends AppCompatActivity {
 
         if (myJump != null) {
             int amplitude = myJump.getMaxAmplitude();
-//            if (amplitude > max)
-//                max = amplitude;
-//            if (max > max2)
-//                max2 = max;
 
             // Jump detected; set inJump to true to start saving pattern
-            if (amplitude > AMPLITUDE_THRESHOLD && tempJump.size() == 0)
+            // trainedJump.size condition allow only one capture of the sound
+            if (amplitude > AMPLITUDE_THRESHOLD_HIGH && trainedJump.size() == 0) {
                 inJump = true;
+            }
+            // Jump ended; stop saving pattern
+            else if (amplitude < AMPLITUDE_THRESHOLD_LOW) {
+                if (inJump) {
+                    // capture the fading off amplitude
+                    System.out.println(++count);
+                    trainedJump.add(amplitude);
+                    System.out.println(trainedJump);
+                    System.out.println("fading off sound Jump size = " + trainedJump.size());
 
-            // Jump ended; stop saving pattern, detect if jump matches pattern and clear array
-            else if (amplitude < AMPLITUDE_THRESHOLD) {
-                inJump = false;
-                if (tempJump.size() > 0 && isJump(tempJump)) {
-                    count++;
-                    counter.setText(count + "");
+                    inJump = false;
+                    trainedJump.clear();
                 }
-                tempJump.clear();
+
             }
 
-            if (inJump)
-                tempJump.add(amplitude);
+            // Save amplitude point to arraylist
+            if (inJump) {
+                //  System.out.println(">>>> " + amplitude);
+                if (amplitude > leadingAmplitude && amplitude - leadingAmplitude > AMPLITUDE_OFFSET) { // it is probably a new sound
+                    if (amplitude > AMPLITUDE_THRESHOLD_HIGH) { // record the new sound
+                        if (trainedJump.size() > 1) { // print the leading jump sound
+                            System.out.println(trainedJump);
+                            System.out.println("competing sounds Jump size = " + trainedJump.size());
+                            count++; // as the previous sound will not tampering off
+                            trainedJump.clear();
+                        }
 
-//            if (amplitude > AMPLITUDE_THRESHOLD) {
-//                count++;
-//                counter.setText(count + "");
-//            }
+//                        inJump = true; // in a new jump
+                        trainedJump.add(amplitude);
+                        leadingAmplitude = amplitude;
+                    }
+
+                } else {
+                    trainedJump.add(amplitude);
+                    leadingAmplitude = amplitude;
+                }
+            }
         }
 
-    }
-
-    protected boolean isJump(ArrayList<Integer> jump) {
-        System.out.println("Trained: " + trainedJump);
-        System.out.println("Test" + jump);
-        return false;
     }
 }
