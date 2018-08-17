@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class activity_StartJump extends AppCompatActivity {
-    final int AMPLITUDE_THRESHOLD = 20000;
+    final int AMPLITUDE_THRESHOLD = 1000;
     final int mInterval = 20;
 
     private ArrayList<Integer> trainedJump;
