@@ -18,8 +18,7 @@ public class activity_StartJump extends AppCompatActivity {
     final int AMPLITUDE_THRESHOLD_LOW = 5000;
     final int AMPLITUDE_OFFSET = 5000;
     final int mInterval = 20;
-
-    private ArrayList<Integer> trainedJump;
+    
     private ArrayList<Integer> tempJump = new ArrayList<>();
     private boolean inJump = false;
 
@@ -38,7 +37,7 @@ public class activity_StartJump extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
         Intent intent = getIntent();
-        AMPLITUDE_THRESHOLD_HIGH = (int) intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH");
+        AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH"));
     }
 
     protected void onJumpStartClicked(View v) {
@@ -97,21 +96,23 @@ public class activity_StartJump extends AppCompatActivity {
             int amplitude = myJump.getMaxAmplitude();
 
             // Jump detected; set inJump to true to start saving pattern
-            // trainedJump.size condition allow only one capture of the sound
-            if (amplitude > AMPLITUDE_THRESHOLD_HIGH && trainedJump.size() == 0) {
+            // tempJump.size condition allow only one capture of the sound
+            if (amplitude > AMPLITUDE_THRESHOLD_HIGH && tempJump.size() == 0) {
                 inJump = true;
             }
             // Jump ended; stop saving pattern
             else if (amplitude < AMPLITUDE_THRESHOLD_LOW) {
                 if (inJump) {
                     // capture the fading off amplitude
-                    System.out.println(++count);
-                    trainedJump.add(amplitude);
-                    System.out.println(trainedJump);
-                    System.out.println("fading off sound Jump size = " + trainedJump.size());
+                    count++;
+                    counter.setText(count + "");
+                    tempJump.add(amplitude);
+                    System.out.println(count);
+                    System.out.println(tempJump);
+                    System.out.println("fading off sound Jump size = " + tempJump.size());
 
                     inJump = false;
-                    trainedJump.clear();
+                    tempJump.clear();
                 }
 
             }
@@ -121,20 +122,24 @@ public class activity_StartJump extends AppCompatActivity {
                 //  System.out.println(">>>> " + amplitude);
                 if (amplitude > leadingAmplitude && amplitude - leadingAmplitude > AMPLITUDE_OFFSET) { // it is probably a new sound
                     if (amplitude > AMPLITUDE_THRESHOLD_HIGH) { // record the new sound
-                        if (trainedJump.size() > 1) { // print the leading jump sound
-                            System.out.println(trainedJump);
-                            System.out.println("competing sounds Jump size = " + trainedJump.size());
+                        if (tempJump.size() > 1) { // print the leading jump sound
                             count++; // as the previous sound will not tampering off
-                            trainedJump.clear();
+                            counter.setText(count + "");
+
+                            System.out.println(count);
+                            System.out.println(tempJump);
+                            System.out.println("competing sounds Jump size = " + tempJump.size());
+
+                            tempJump.clear();
                         }
 
 //                        inJump = true; // in a new jump
-                        trainedJump.add(amplitude);
+                        tempJump.add(amplitude);
                         leadingAmplitude = amplitude;
                     }
 
                 } else {
-                    trainedJump.add(amplitude);
+                    tempJump.add(amplitude);
                     leadingAmplitude = amplitude;
                 }
             }
