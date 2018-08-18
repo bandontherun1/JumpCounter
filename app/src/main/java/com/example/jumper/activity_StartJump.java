@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class activity_StartJump extends AppCompatActivity {
     private int leadingAmplitude = 0;
     private int AMPLITUDE_THRESHOLD_HIGH = 0;
-    final int AMPLITUDE_THRESHOLD_LOW = 5000;
-    final int AMPLITUDE_OFFSET = 5000;
+    private int AMPLITUDE_THRESHOLD_LOW = 0;
+    private int AMPLITUDE_OFFSET = 0;
     final int mInterval = 20;
     
     private ArrayList<Integer> tempJump = new ArrayList<>();
@@ -37,7 +37,10 @@ public class activity_StartJump extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
         Intent intent = getIntent();
-        AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH"));
+        AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
+        AMPLITUDE_OFFSET = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
+        AMPLITUDE_THRESHOLD_LOW = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
+
     }
 
     protected void onJumpStartClicked(View v) {

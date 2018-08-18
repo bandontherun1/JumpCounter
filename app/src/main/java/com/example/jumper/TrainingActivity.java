@@ -24,9 +24,9 @@ public class TrainingActivity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
 
     final int AMPLITUDE_THRESHOLD_MAX = 32767;
-    private int AMPLITUDE_THRESHOLD_HIGH = 25000;
-    final int AMPLITUDE_THRESHOLD_LOW = 5000;
-    final int AMPLITUDE_OFFSET = 5000;
+    private int AMPLITUDE_THRESHOLD_HIGH = 5000;
+    final int AMPLITUDE_THRESHOLD_LOW = 1000;
+    final int AMPLITUDE_OFFSET = 1000;
     final int mInterval = 20;
 
     int count = 0;
