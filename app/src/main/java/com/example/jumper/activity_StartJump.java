@@ -32,6 +32,7 @@ public class activity_StartJump extends AppCompatActivity {
     Boolean amIRunning = true;
     Button resumeJumpB;
     Button pauseJumpB;
+    Button restartB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +42,25 @@ public class activity_StartJump extends AppCompatActivity {
         AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
         AMPLITUDE_OFFSET = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
         AMPLITUDE_THRESHOLD_LOW = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
+        counter = findViewById(R.id.count);
+        jumpStartB = findViewById(R.id.startJumpB);
+        jumpStopB = findViewById(R.id.stopJumpB);
+        counter.setTextSize(120);
+        counter.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
+        counter.setText("0");
+        pauseJumpB = findViewById(R.id.pauseJumpB);
+        resumeJumpB = findViewById(R.id.resumeJumpB);
+        restartB = findViewById(R.id.restartB);
 
     }
 
     protected void onJumpStartClicked(View v) {
         // open /dev/null for not saving the mic data
-        counter = findViewById(R.id.count);
-        counter.setTextSize(120);
-        counter.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
-        jumpStartB = findViewById(R.id.startJumpB);
-        jumpStopB = findViewById(R.id.stopJumpB);
 
         jumpStartB.setVisibility(View.INVISIBLE);
         jumpStopB.setVisibility(View.VISIBLE);
+        pauseJumpB.setVisibility(View.VISIBLE);
+        restartB.setVisibility(View.VISIBLE);
 
         if (myJump != null) {
             try {
@@ -77,17 +84,19 @@ public class activity_StartJump extends AppCompatActivity {
 
     }
 
+    protected void onRestartClicked(View v) {
+        count = 0;
+        counter.setText("0");
+    }
+
     protected void onPauseJumpClicked(View v) {
-        pauseJumpB = findViewById(R.id.pauseJumpB);
-        resumeJumpB = findViewById(R.id.resumeJumpB);
+
         pauseJumpB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.VISIBLE);
         amIRunning = false;
     }
 
     protected void onResumeJumpClicked(View v) {
-        pauseJumpB = findViewById(R.id.pauseJumpB);
-        resumeJumpB = findViewById(R.id.resumeJumpB);
         pauseJumpB.setVisibility(View.VISIBLE);
         resumeJumpB.setVisibility(View.INVISIBLE);
         amIRunning = true;
