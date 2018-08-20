@@ -56,7 +56,6 @@ class Jumpsound implements Serializable {
     public void stop() throws IOException {
         myjumpsound.stop();
         myjumpsound.release();
-
     }
 
 }

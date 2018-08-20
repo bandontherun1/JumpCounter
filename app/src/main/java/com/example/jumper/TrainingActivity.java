@@ -46,7 +46,8 @@ public class TrainingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         me = (Jumper) intent.getSerializableExtra("jumperobject");
     }
-    protected void onStopClicked(View v) {
+
+    public void onStopClicked(View v) {
         if (me != null) {
 
             try {
@@ -65,7 +66,8 @@ public class TrainingActivity extends AppCompatActivity {
         }
 
     }
-    protected void onTrainClicked(View v) {
+
+    public void onTrainClicked(View v) {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)

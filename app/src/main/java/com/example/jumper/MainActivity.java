@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    protected void onBtnClicked(View v) {
+    public void onBtnClicked(View v) {
         Jumper me = collectJumperData();
         if (validateJumperData())
             createJumper();

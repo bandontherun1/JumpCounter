@@ -54,7 +54,7 @@ public class activity_StartJump extends AppCompatActivity {
 
     }
 
-    protected void onJumpStartClicked(View v) {
+    public void onJumpStartClicked(View v) {
         // open /dev/null for not saving the mic data
 
         jumpStartB.setVisibility(View.INVISIBLE);
@@ -77,26 +77,26 @@ public class activity_StartJump extends AppCompatActivity {
 
     }
 
-    protected void onJumpStopClicked(View v) {
+    public void onJumpStopClicked(View v) {
         jumpStopB.setVisibility(View.INVISIBLE);
         stopRepeatingTask();
         counter.setText(count+"");
 
     }
 
-    protected void onRestartClicked(View v) {
+    public void onRestartClicked(View v) {
         count = 0;
         counter.setText("0");
     }
 
-    protected void onPauseJumpClicked(View v) {
+    public void onPauseJumpClicked(View v) {
 
         pauseJumpB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.VISIBLE);
         amIRunning = false;
     }
 
-    protected void onResumeJumpClicked(View v) {
+    public void onResumeJumpClicked(View v) {
         pauseJumpB.setVisibility(View.VISIBLE);
         resumeJumpB.setVisibility(View.INVISIBLE);
         amIRunning = true;
