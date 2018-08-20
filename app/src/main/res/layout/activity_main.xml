@@ -11,7 +11,7 @@
         android:id="@+id/weight"
         android:layout_width="67dp"
         android:layout_height="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:text="@string/Weight"
         app:layout_constraintEnd_toStartOf="@+id/jumperWeight"
         app:layout_constraintHorizontal_bias="0.5"
@@ -22,7 +22,7 @@
         android:id="@+id/height"
         android:layout_width="70dp"
         android:layout_height="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:text="@string/Height"
         app:layout_constraintEnd_toStartOf="@+id/jumperHeight"
         app:layout_constraintHorizontal_bias="0.5"
@@ -33,19 +33,21 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="76dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:onClick="onBtnClicked"
         android:text="@string/OK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/height" />
 
     <EditText
         android:id="@+id/jumperName"
         android:layout_width="244dp"
-        android:layout_height="38dp"
+        android:layout_height="45dp"
         android:layout_marginTop="52dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -58,7 +60,7 @@
         android:id="@+id/name"
         android:layout_width="70dp"
         android:layout_height="38dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="56dp"
         android:text="@string/Name"
         app:layout_constraintEnd_toStartOf="@+id/jumperName"
         app:layout_constraintHorizontal_bias="0.5"
@@ -67,49 +69,67 @@
 
     <TextView
         android:id="@+id/gender"
-        android:layout_width="69dp"
+        android:layout_width="78dp"
         android:layout_height="36dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="56dp"
         android:text="@string/Gender"
-        app:layout_constraintEnd_toStartOf="@+id/jumperGender"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <EditText
-        android:id="@+id/jumperGender"
-        android:layout_width="243dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/gender"
-        app:layout_constraintTop_toBottomOf="@+id/jumperName" />
-
-    <EditText
         android:id="@+id/jumperWeight"
         android:layout_width="242dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/weight"
-        app:layout_constraintTop_toBottomOf="@+id/jumperGender" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
         android:id="@+id/jumperHeight"
         android:layout_width="243dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="48dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/height"
         app:layout_constraintTop_toBottomOf="@+id/jumperWeight" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="187dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="44dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gender"
+        app:layout_constraintTop_toBottomOf="@+id/jumperName">
+
+        <RadioButton
+            android:id="@+id/radioM"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/radioF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="Female" />
+
+    </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

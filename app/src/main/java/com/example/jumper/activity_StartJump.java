@@ -26,8 +26,6 @@ public class activity_StartJump extends AppCompatActivity {
     private Handler myHandler = new Handler();
     Jumpsound myJump = new Jumpsound("/dev/null");
     Jumper myjumper;
-    int max = 0;
-    int max2 = 0;
     TextView counter;
     Button jumpStartB;
     Button jumpStopB;
@@ -116,6 +114,7 @@ public class activity_StartJump extends AppCompatActivity {
     void stopRepeatingTask() {
         myHandler.removeCallbacks(mStatusChecker);
     }
+
     protected void startCounting(MediaRecorder myJump) {
 
         if (myJump != null) {
