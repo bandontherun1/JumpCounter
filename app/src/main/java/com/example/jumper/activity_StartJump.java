@@ -49,6 +49,8 @@ public class activity_StartJump extends AppCompatActivity {
     protected void onJumpStartClicked(View v) {
         // open /dev/null for not saving the mic data
         counter = findViewById(R.id.count);
+        counter.setTextSize(120);
+        counter.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
         jumpStartB = findViewById(R.id.startJumpB);
         jumpStopB = findViewById(R.id.stopJumpB);
 
