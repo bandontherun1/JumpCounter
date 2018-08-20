@@ -9,4 +9,6 @@
     <string name="StopTrain">Stop</string>
     <string name="StartJump">StartJump</string>
     <string name="StopJump">StopJump</string>
+    <string name="PauseJump">PauseJump</string>
+    <string name="ResumeJump">ResumeJump</string>
 </resources>

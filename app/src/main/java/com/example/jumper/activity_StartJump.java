@@ -31,6 +31,9 @@ public class activity_StartJump extends AppCompatActivity {
     TextView counter;
     Button jumpStartB;
     Button jumpStopB;
+    Boolean amIRunning = true;
+    Button resumeJumpB;
+    Button pauseJumpB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class activity_StartJump extends AppCompatActivity {
             }
 
             // startCounting(myJump.myjumpsound);
+
             startRepeatingTask();
 
         }
@@ -73,11 +77,28 @@ public class activity_StartJump extends AppCompatActivity {
 
     }
 
+    protected void onPauseJumpClicked(View v) {
+        pauseJumpB = findViewById(R.id.pauseJumpB);
+        resumeJumpB = findViewById(R.id.resumeJumpB);
+        pauseJumpB.setVisibility(View.INVISIBLE);
+        resumeJumpB.setVisibility(View.VISIBLE);
+        amIRunning = false;
+    }
+
+    protected void onResumeJumpClicked(View v) {
+        pauseJumpB = findViewById(R.id.pauseJumpB);
+        resumeJumpB = findViewById(R.id.resumeJumpB);
+        pauseJumpB.setVisibility(View.VISIBLE);
+        resumeJumpB.setVisibility(View.INVISIBLE);
+        amIRunning = true;
+    }
+
     Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
             try {
-                startCounting(myJump.myjumpsound);
+                if (amIRunning)
+                    startCounting(myJump.myjumpsound);
             } finally {
                 // 100% guarantee that this always happens, even if
                 // your update method throws an exception
