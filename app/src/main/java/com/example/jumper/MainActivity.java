@@ -21,12 +21,23 @@ public class MainActivity extends AppCompatActivity {
     private String myGender;
     private float myHeight;
     private float myWeight;
+    EditText mName;
+    EditText mWeight;
+    EditText mHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mName = (EditText) findViewById(R.id.jumperName);
+        mWeight = (EditText) findViewById(R.id.jumperWeight);
+        mHeight = (EditText) findViewById(R.id.jumperHeight);
     }
 
     public void onRadioButtonClicked(View view) {
@@ -48,55 +59,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onBtnClicked(View v) {
-        Jumper me = collectJumperData();
-        if (validateJumperData())
-            createJumper();
 
+        if (!validateJumperData())
+            return;
+
+        Jumper me = collectJumperData();
 
         Intent intent = new Intent(this, TrainingActivity.class);
         intent.putExtra("jumperobject", me);
         startActivity(intent);
 
-
-        /*
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECORD_AUDIO },
-                    10);
-        }
-
-        if (me != null) {
-            me.mjumpsound = new Jumpsound("/jumperdata");
-            try {
-                me.mjumpsound.start();
-                me.mjumpsound.stop();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
-
-        }
-        */
-
-
     }
 
     private Jumper collectJumperData() {
-        EditText mName;
-        mName = (EditText) findViewById(R.id.jumperName);
+
         myName = mName.getText().toString().trim();
         if (TextUtils.isEmpty(myName)) {
             Toast t = Toast.makeText(this, "Please enter a user name", Toast.LENGTH_SHORT);
             t.show();
             mName.setError("Please enter a user name");
         }
-     //   EditText mGender;
+     //
      //   mGender = (EditText) findViewById(R.id.jumperGender);
      //   myGender = mGender.getText().toString();
-        EditText mWeight = (EditText) findViewById(R.id.jumperWeight);
         myWeight = Float.valueOf(mWeight.getText().toString());
-        EditText mHeight = (EditText) findViewById(R.id.jumperHeight);
         myHeight = Float.valueOf(mHeight.getText().toString());
+
         Jumper myJumper = new Jumper(myName, myGender, myHeight, myWeight);
         return myJumper;
 
@@ -104,8 +92,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Boolean validateJumperData() {
+        Boolean validation = Boolean.TRUE;
+        if (mName.getText().toString().length() == 0) {
+            mName.requestFocus();
+            mName.setError("please enter a user name");
+            validation = Boolean.FALSE;
+        }
+        if (mWeight.getText().toString().length() == 0) {
+            mWeight.requestFocus();
+            mWeight.setError("please enter a valid weight");
+            validation = Boolean.FALSE;
+        }
+        if (mHeight.getText().toString().length() == 0) {
+            mHeight.requestFocus();
+            mHeight.setError("please enter a valid height");
+            validation = Boolean.FALSE;
+        }
 
-        return Boolean.TRUE;
+        return validation;
     }
 
     private int createJumper(){

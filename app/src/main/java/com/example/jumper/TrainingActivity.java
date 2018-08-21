@@ -42,6 +42,7 @@ public class TrainingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_training);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         Intent intent = getIntent();
         me = (Jumper) intent.getSerializableExtra("jumperobject");
     }

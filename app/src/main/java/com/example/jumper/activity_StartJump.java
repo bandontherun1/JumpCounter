@@ -84,6 +84,27 @@ public class activity_StartJump extends AppCompatActivity {
         stopRepeatingTask();
         counter.setText(count+"");
 
+        pauseJumpB.setEnabled(false);
+        pauseJumpB.setAlpha(0.5f);
+        restartB.setEnabled(false);
+        restartB.setAlpha(0.5f);
+        resumeJumpB.setEnabled(false);
+        resumeJumpB.setAlpha(0.5f);
+        jumpStopB.setEnabled(false);
+        jumpStopB.setAlpha(0.5f);
+
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.finishAffinity();
+        super.finishAffinity();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+
     }
 
     public void onRestartClicked(View v) {
