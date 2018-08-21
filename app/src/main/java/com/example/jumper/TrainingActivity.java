@@ -2,6 +2,7 @@ package com.example.jumper;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -22,8 +23,6 @@ public class TrainingActivity extends AppCompatActivity {
     Jumper me;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
-
-    final int AMPLITUDE_THRESHOLD_MAX = 32767;
     private int AMPLITUDE_THRESHOLD_HIGH = 5000;
     final int AMPLITUDE_THRESHOLD_LOW = 1000;
     final int AMPLITUDE_OFFSET = 1000;
@@ -33,7 +32,6 @@ public class TrainingActivity extends AppCompatActivity {
     int totalAmplitude = 0;
 
     private boolean inJump = false;
-    private boolean maxReached = false;
     private int leadingAmplitude = 0;
     public ArrayList<Integer> trainedJump = new ArrayList<>();
     private Handler myHandler = new Handler();
@@ -42,6 +40,7 @@ public class TrainingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Intent intent = getIntent();
         me = (Jumper) intent.getSerializableExtra("jumperobject");

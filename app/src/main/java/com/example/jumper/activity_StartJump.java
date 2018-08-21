@@ -1,6 +1,7 @@
 package com.example.jumper;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class activity_StartJump extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = getIntent();
         AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
         AMPLITUDE_OFFSET = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
