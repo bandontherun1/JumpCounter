@@ -87,6 +87,7 @@ public class activity_StartJump extends AppCompatActivity {
 
         stopRepeatingTask();
         counter.setText(count+"");
+        getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         jumpStopB.setVisibility(View.INVISIBLE);
         pauseJumpB.setVisibility(View.INVISIBLE);
