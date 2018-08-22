@@ -7,9 +7,9 @@
     <string name="Name">Name</string>
     <string name="Train">Train</string>
     <string name="StopTrain">Stop</string>
-    <string name="StartJump">StartJump</string>
-    <string name="StopJump">StopJump</string>
-    <string name="PauseJump">PauseJump</string>
-    <string name="ResumeJump">ResumeJump</string>
+    <string name="StartJump">Start</string>
+    <string name="StopJump">Exit</string>
+    <string name="PauseJump">Pause</string>
+    <string name="ResumeJump">Resume</string>
 
 </resources>
