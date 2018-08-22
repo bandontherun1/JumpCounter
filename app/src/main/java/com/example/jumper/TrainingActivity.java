@@ -21,11 +21,12 @@ import java.util.ArrayList;
 
 public class TrainingActivity extends AppCompatActivity {
     Jumper me;
+    private static final boolean enableDebug = false;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
     private int AMPLITUDE_THRESHOLD_HIGH = 5000;
-    final int AMPLITUDE_THRESHOLD_LOW = 1000;
-    final int AMPLITUDE_OFFSET = 1000;
+    private int AMPLITUDE_THRESHOLD_LOW = 1000;
+    private int AMPLITUDE_OFFSET = 1000;
     final int mInterval = 20;
 
     int count = 0;
@@ -60,7 +61,11 @@ public class TrainingActivity extends AppCompatActivity {
             }
 
             Intent intent = new Intent(this, activity_StartJump.class);
-            intent.putExtra("AMPLITUDE_THRESHOLD_HIGH", (totalAmplitude / count) * .7);
+            if (enableDebug) {
+                System.out.println("trained high mark = " + totalAmplitude / count * 0.6 + "count = " + count);
+                System.out.println("THRESHOLD_HIGH = " + AMPLITUDE_THRESHOLD_HIGH);
+            }
+            intent.putExtra("AMPLITUDE_THRESHOLD_HIGH", (totalAmplitude / count) * .6);
             startActivity(intent);
 
         }
@@ -174,10 +179,11 @@ public class TrainingActivity extends AppCompatActivity {
                     count++;
                     totalAmplitude += trainedJump.get(0);
                     trainedJump.add(amplitude);
-
-                    System.out.println(count);
-                    System.out.println(trainedJump);
-                    System.out.println("fading off sound Jump size = " + trainedJump.size());
+                    if (enableDebug) {
+                        System.out.println(count);
+                        System.out.println(trainedJump);
+                        System.out.println("fading off sound Jump size = " + trainedJump.size());
+                    }
 
                     inJump = false;
                     trainedJump.clear();
@@ -193,11 +199,11 @@ public class TrainingActivity extends AppCompatActivity {
                         if (trainedJump.size() > 1) { // print the leading jump sound
                             count++; // as the previous sound will not tampering off
                             totalAmplitude += trainedJump.get(0);
-
-                            System.out.println(count);
-                            System.out.println(trainedJump);
-                            System.out.println("competing sounds Jump size = " + trainedJump.size());
-
+                            if (enableDebug) {
+                                System.out.println(count);
+                                System.out.println(trainedJump);
+                                System.out.println("competing sounds Jump size = " + trainedJump.size());
+                            }
                             trainedJump.clear();
                         }
 
@@ -206,7 +212,8 @@ public class TrainingActivity extends AppCompatActivity {
                         leadingAmplitude = amplitude;
                     }
 
-                } else {
+                }
+                else {
                     trainedJump.add(amplitude);
                     leadingAmplitude = amplitude;
                 }

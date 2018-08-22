@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class activity_StartJump extends AppCompatActivity {
     private int AMPLITUDE_THRESHOLD_LOW = 0;
     private int AMPLITUDE_OFFSET = 0;
     final int mInterval = 20;
+    private static final boolean enableDebug = false;
     
     private ArrayList<Integer> tempJump = new ArrayList<>();
     private boolean inJump = false;
@@ -40,8 +42,10 @@ public class activity_StartJump extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__start_jump);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Intent intent = getIntent();
-        AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
+      //  AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
+        AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH"));
         AMPLITUDE_OFFSET = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
         AMPLITUDE_THRESHOLD_LOW = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
         counter = findViewById(R.id.count);
@@ -80,18 +84,14 @@ public class activity_StartJump extends AppCompatActivity {
     }
 
     public void onJumpStopClicked(View v) {
-        jumpStopB.setVisibility(View.INVISIBLE);
+
         stopRepeatingTask();
         counter.setText(count+"");
 
-        pauseJumpB.setEnabled(false);
-        pauseJumpB.setAlpha(0.5f);
-        restartB.setEnabled(false);
-        restartB.setAlpha(0.5f);
-        resumeJumpB.setEnabled(false);
-        resumeJumpB.setAlpha(0.5f);
-        jumpStopB.setEnabled(false);
-        jumpStopB.setAlpha(0.5f);
+        jumpStopB.setVisibility(View.INVISIBLE);
+        pauseJumpB.setVisibility(View.INVISIBLE);
+        restartB.setVisibility(View.INVISIBLE);
+        resumeJumpB.setVisibility(View.INVISIBLE);
 
         try {
             Thread.sleep(8000);
@@ -164,9 +164,11 @@ public class activity_StartJump extends AppCompatActivity {
                     count++;
                     counter.setText(count + "");
                     tempJump.add(amplitude);
-                    System.out.println(count);
-                    System.out.println(tempJump);
-                    System.out.println("fading off sound Jump size = " + tempJump.size());
+                    if (enableDebug) {
+                        System.out.println(count);
+                        System.out.println(tempJump);
+                        System.out.println("fading off sound Jump size = " + tempJump.size());
+                    }
 
                     inJump = false;
                     tempJump.clear();
@@ -182,10 +184,11 @@ public class activity_StartJump extends AppCompatActivity {
                         if (tempJump.size() > 1) { // print the leading jump sound
                             count++; // as the previous sound will not tampering off
                             counter.setText(count + "");
-
-                            System.out.println(count);
-                            System.out.println(tempJump);
-                            System.out.println("competing sounds Jump size = " + tempJump.size());
+                            if (enableDebug) {
+                                System.out.println(count);
+                                System.out.println(tempJump);
+                                System.out.println("competing sounds Jump size = " + tempJump.size());
+                            }
 
                             tempJump.clear();
                         }

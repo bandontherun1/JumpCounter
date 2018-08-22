@@ -14,7 +14,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     private String myName;
@@ -24,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
     EditText mName;
     EditText mWeight;
     EditText mHeight;
+    RadioButton mGender;
+    String filename = "jumperProfile1";
+    FileOutputStream fos;
+    ObjectOutputStream outputStream;
+    Jumper me;
+    Boolean newUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +50,48 @@ public class MainActivity extends AppCompatActivity {
         mName = (EditText) findViewById(R.id.jumperName);
         mWeight = (EditText) findViewById(R.id.jumperWeight);
         mHeight = (EditText) findViewById(R.id.jumperHeight);
+        File file = new File(this.getFilesDir(), filename);
+        if (file.exists()) {
+            // just display the info
+            newUser = false;
+            try {
+                FileInputStream fis = this.openFileInput(filename);
+                ObjectInputStream is = new ObjectInputStream(fis);
+                try {
+                    Jumper tmp = (Jumper) is.readObject();
+                    me = new Jumper(tmp.name, tmp.gender, tmp.height, tmp.weight);
+                    mName.setText(me.name);
+                    mHeight.setText(me.height+"");
+                    mWeight.setText(me.weight+"");
+                    if (me.gender.equals("Male")) {
+                        mGender = (RadioButton) findViewById(R.id.radioM);
+                        mGender.setChecked(true);
+                    }
+                    else {
+                        mGender = (RadioButton) findViewById(R.id.radioF);
+                        mGender.setChecked(true);
+                    }
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                is.close();
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else {
+            newUser = true;
+            try {
+                fos = this.openFileOutput(filename, this.MODE_PRIVATE);
+                outputStream = new ObjectOutputStream(fos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void onRadioButtonClicked(View view) {
@@ -60,10 +114,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtnClicked(View v) {
 
-        if (!validateJumperData())
-            return;
+        if (newUser) {
 
-        Jumper me = collectJumperData();
+            if (!validateJumperData())
+                return;
+
+            me = collectJumperData();
+        }
 
         Intent intent = new Intent(this, TrainingActivity.class);
         intent.putExtra("jumperobject", me);
@@ -74,18 +131,18 @@ public class MainActivity extends AppCompatActivity {
     private Jumper collectJumperData() {
 
         myName = mName.getText().toString().trim();
-        if (TextUtils.isEmpty(myName)) {
-            Toast t = Toast.makeText(this, "Please enter a user name", Toast.LENGTH_SHORT);
-            t.show();
-            mName.setError("Please enter a user name");
-        }
-     //
-     //   mGender = (EditText) findViewById(R.id.jumperGender);
-     //   myGender = mGender.getText().toString();
         myWeight = Float.valueOf(mWeight.getText().toString());
         myHeight = Float.valueOf(mHeight.getText().toString());
 
         Jumper myJumper = new Jumper(myName, myGender, myHeight, myWeight);
+        try {
+            outputStream.writeObject(myJumper);
+            outputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return myJumper;
 
 
@@ -112,19 +169,4 @@ public class MainActivity extends AppCompatActivity {
         return validation;
     }
 
-    private int createJumper(){
-        /*
-        Jumpsound mysound = new Jumpsound("/");
-        try {
-            mysound.start();
-
-            mysound.stop();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        */
-        return 1;
-
-    }
 }
