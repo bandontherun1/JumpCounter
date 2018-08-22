@@ -49,7 +49,7 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     public void onStopClicked(View v) {
-        if (me != null) {
+        if (me != null && count > 0) {
 
             try {
                 me.mjumpsound.stop();
@@ -60,13 +60,18 @@ public class TrainingActivity extends AppCompatActivity {
 
             }
 
-            Intent intent = new Intent(this, activity_StartJump.class);
+
             if (enableDebug) {
                 System.out.println("trained high mark = " + totalAmplitude / count * 0.6 + "count = " + count);
                 System.out.println("THRESHOLD_HIGH = " + AMPLITUDE_THRESHOLD_HIGH);
             }
-            intent.putExtra("AMPLITUDE_THRESHOLD_HIGH", (totalAmplitude / count) * .6);
-            startActivity(intent);
+            try {
+                Intent intent = new Intent(this, activity_StartJump.class);
+                intent.putExtra("AMPLITUDE_THRESHOLD_HIGH", (totalAmplitude / count) * .6);
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -95,8 +100,6 @@ public class TrainingActivity extends AppCompatActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        } else {
-            // Permission has already been granted
         }
 
         if (ContextCompat.checkSelfPermission(this,
@@ -120,8 +123,6 @@ public class TrainingActivity extends AppCompatActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        } else {
-            // Permission has already been granted
         }
 
         if (me != null) {

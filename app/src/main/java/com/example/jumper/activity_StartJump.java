@@ -36,6 +36,26 @@ public class activity_StartJump extends AppCompatActivity {
     Button resumeJumpB;
     Button pauseJumpB;
     Button restartB;
+    TextView sw;
+    private Handler stopWatchHandler;
+    private boolean swStarted;
+    private long startTime;
+
+
+    private final Runnable stopWatchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (swStarted) {
+                long seconds = (System.currentTimeMillis() - startTime) / 1000;
+                sw.setText(String.format("%02d:%02d  %3d", seconds / 60, seconds % 60, count*60/seconds));
+                stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
+            }
+        }
+
+    };
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +77,10 @@ public class activity_StartJump extends AppCompatActivity {
         pauseJumpB = findViewById(R.id.pauseJumpB);
         resumeJumpB = findViewById(R.id.resumeJumpB);
         restartB = findViewById(R.id.restartB);
+        sw = findViewById(R.id.stopWatch);
+        sw.setTextSize(120);
+        sw.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
+        stopWatchHandler = new Handler();
 
     }
 
@@ -67,10 +91,14 @@ public class activity_StartJump extends AppCompatActivity {
         jumpStopB.setVisibility(View.VISIBLE);
         pauseJumpB.setVisibility(View.VISIBLE);
         restartB.setVisibility(View.VISIBLE);
+        startTime = System.currentTimeMillis();
+        sw.setVisibility(View.VISIBLE);
 
         if (myJump != null) {
             try {
                 myJump.start();
+                swStarted = true;
+                stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,13 +114,15 @@ public class activity_StartJump extends AppCompatActivity {
     public void onJumpStopClicked(View v) {
 
         stopRepeatingTask();
-        counter.setText(count+"");
         getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         jumpStopB.setVisibility(View.INVISIBLE);
         pauseJumpB.setVisibility(View.INVISIBLE);
         restartB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.INVISIBLE);
+        stopWatchHandler.removeCallbacks(stopWatchRunnable);
+        swStarted = false;
+        sw.setVisibility(View.INVISIBLE);
 
         try {
             Thread.sleep(8000);
