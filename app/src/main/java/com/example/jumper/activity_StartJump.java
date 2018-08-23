@@ -47,7 +47,8 @@ public class activity_StartJump extends AppCompatActivity {
         public void run() {
             if (swStarted) {
                 long seconds = (System.currentTimeMillis() - startTime) / 1000;
-                sw.setText(String.format("%02d:%02d  %3d", seconds / 60, seconds % 60, count*60/seconds));
+                if (seconds != 0)
+                    sw.setText(String.format("%02d:%02d  %3d", seconds / 60, seconds % 60, count*60/seconds));
                 stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
             }
         }
@@ -71,14 +72,14 @@ public class activity_StartJump extends AppCompatActivity {
         counter = findViewById(R.id.count);
         jumpStartB = findViewById(R.id.startJumpB);
         jumpStopB = findViewById(R.id.stopJumpB);
-        counter.setTextSize(120);
+        counter.setTextSize(80);
         counter.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
         counter.setText("0");
         pauseJumpB = findViewById(R.id.pauseJumpB);
         resumeJumpB = findViewById(R.id.resumeJumpB);
         restartB = findViewById(R.id.restartB);
         sw = findViewById(R.id.stopWatch);
-        sw.setTextSize(120);
+        sw.setTextSize(80);
         sw.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
         stopWatchHandler = new Handler();
 
@@ -141,6 +142,8 @@ public class activity_StartJump extends AppCompatActivity {
     public void onRestartClicked(View v) {
         count = 0;
         counter.setText("0");
+        startTime = System.currentTimeMillis();
+        sw.setText(String.format("%02d:%02d  %3d", 0, 0, 0));
     }
 
     public void onPauseJumpClicked(View v) {
