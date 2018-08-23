@@ -28,7 +28,6 @@ public class activity_StartJump extends AppCompatActivity {
     int count = 0;
     private Handler myHandler = new Handler();
     Jumpsound myJump = new Jumpsound("/dev/null");
-    Jumper myjumper;
     TextView counter;
     Button jumpStartB;
     Button jumpStopB;
@@ -86,8 +85,6 @@ public class activity_StartJump extends AppCompatActivity {
     }
 
     public void onJumpStartClicked(View v) {
-        // open /dev/null for not saving the mic data
-
         jumpStartB.setVisibility(View.INVISIBLE);
         jumpStopB.setVisibility(View.VISIBLE);
         pauseJumpB.setVisibility(View.VISIBLE);
@@ -104,16 +101,12 @@ public class activity_StartJump extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // startCounting(myJump.myjumpsound);
-
             startRepeatingTask();
-
         }
 
     }
 
     public void onJumpStopClicked(View v) {
-
         stopRepeatingTask();
         getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -143,11 +136,11 @@ public class activity_StartJump extends AppCompatActivity {
         count = 0;
         counter.setText("0");
         startTime = System.currentTimeMillis();
-        sw.setText(String.format("%02d:%02d  %3d", 0, 0, 0));
+        //sw.setText("00:00    0");
+        sw.setText(R.string.stopWatchZero);
     }
 
     public void onPauseJumpClicked(View v) {
-
         pauseJumpB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.VISIBLE);
         amIRunning = false;
@@ -182,7 +175,6 @@ public class activity_StartJump extends AppCompatActivity {
     }
 
     protected void startCounting(MediaRecorder myJump) {
-
         if (myJump != null) {
             int amplitude = myJump.getMaxAmplitude();
 

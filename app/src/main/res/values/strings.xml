@@ -11,5 +11,6 @@
     <string name="StopJump">Exit</string>
     <string name="PauseJump">Pause</string>
     <string name="ResumeJump">Resume</string>
+    <string name="stopWatchZero">00:00   0</string>
 
 </resources>
