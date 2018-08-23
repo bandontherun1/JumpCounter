@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class TrainingActivity extends AppCompatActivity {
     Jumper me;
-    private static final boolean enableDebug = false;
+    private boolean enableDebug = false;
     final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO=123;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
     private int AMPLITUDE_THRESHOLD_HIGH = 5000;
@@ -68,6 +68,7 @@ public class TrainingActivity extends AppCompatActivity {
             try {
                 Intent intent = new Intent(this, activity_StartJump.class);
                 intent.putExtra("AMPLITUDE_THRESHOLD_HIGH", (totalAmplitude / count) * .6);
+                intent.putExtra("JumperWeight", me.weight);
                 startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();

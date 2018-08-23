@@ -20,13 +20,14 @@ public class activity_StartJump extends AppCompatActivity {
     private int AMPLITUDE_THRESHOLD_LOW = 0;
     private int AMPLITUDE_OFFSET = 0;
     final int mInterval = 20;
-    private static final boolean enableDebug = false;
+    private boolean enableDebug = false;
     
     private ArrayList<Integer> tempJump = new ArrayList<>();
     private boolean inJump = false;
 
     int count = 0;
     private Handler myHandler = new Handler();
+    float myweight;
     Jumpsound myJump = new Jumpsound("/dev/null");
     TextView counter;
     Button jumpStartB;
@@ -39,13 +40,15 @@ public class activity_StartJump extends AppCompatActivity {
     private Handler stopWatchHandler;
     private boolean swStarted;
     private long startTime;
+    private long seconds;
+    final double caloriesPerMin = 0.076; // per livingstrong.com
 
 
     private final Runnable stopWatchRunnable = new Runnable() {
         @Override
         public void run() {
             if (swStarted) {
-                long seconds = (System.currentTimeMillis() - startTime) / 1000;
+                seconds = (System.currentTimeMillis() - startTime) / 1000;
                 if (seconds != 0)
                     sw.setText(String.format("%02d:%02d  %3d", seconds / 60, seconds % 60, count*60/seconds));
                 stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
@@ -66,6 +69,7 @@ public class activity_StartJump extends AppCompatActivity {
         Intent intent = getIntent();
       //  AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH") * .6);
         AMPLITUDE_THRESHOLD_HIGH = (int)((double)intent.getSerializableExtra("AMPLITUDE_THRESHOLD_HIGH"));
+        myweight = (float) intent.getSerializableExtra("JumperWeight");
         AMPLITUDE_OFFSET = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
         AMPLITUDE_THRESHOLD_LOW = (int) (AMPLITUDE_THRESHOLD_HIGH * .2);
         counter = findViewById(R.id.count);
@@ -143,6 +147,11 @@ public class activity_StartJump extends AppCompatActivity {
     public void onPauseJumpClicked(View v) {
         pauseJumpB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.VISIBLE);
+        // display calories
+        if (seconds != 0) {
+            counter.setText(String.format("%.02f Cal.", caloriesPerMin * myweight * seconds/60));
+        }
+
         amIRunning = false;
     }
 
