@@ -39,9 +39,11 @@ public class activity_StartJump extends AppCompatActivity {
     TextView sw;
     private Handler stopWatchHandler;
     private boolean swStarted;
+    private int swCycles = 50;
     private long startTime;
     private long seconds;
-    final double caloriesPerMin = 0.076; // per livingstrong.com
+    private long accumulatedDuration = 0;
+    double caloriesPerMin;
 
 
     private final Runnable stopWatchRunnable = new Runnable() {
@@ -49,10 +51,12 @@ public class activity_StartJump extends AppCompatActivity {
         public void run() {
             if (swStarted) {
                 seconds = (System.currentTimeMillis() - startTime) / 1000;
-                if (seconds != 0)
-                    sw.setText(String.format("%02d:%02d  %3d", seconds / 60, seconds % 60, count*60/seconds));
-                stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
+                accumulatedDuration++;
+                if (accumulatedDuration != 0)
+                    sw.setText(String.format("%02d:%02d  %3d", accumulatedDuration / 60, accumulatedDuration % 60, count*60/accumulatedDuration));
+
             }
+            stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
         }
 
     };
@@ -100,7 +104,7 @@ public class activity_StartJump extends AppCompatActivity {
             try {
                 myJump.start();
                 swStarted = true;
-                stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
+                //stopWatchHandler.postDelayed(stopWatchRunnable, 1000L);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -123,7 +127,7 @@ public class activity_StartJump extends AppCompatActivity {
         sw.setVisibility(View.INVISIBLE);
 
         try {
-            Thread.sleep(8000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -140,6 +144,7 @@ public class activity_StartJump extends AppCompatActivity {
         count = 0;
         counter.setText("0");
         startTime = System.currentTimeMillis();
+        accumulatedDuration = 0;
         //sw.setText("00:00    0");
         sw.setText(R.string.stopWatchZero);
     }
@@ -148,17 +153,28 @@ public class activity_StartJump extends AppCompatActivity {
         pauseJumpB.setVisibility(View.INVISIBLE);
         resumeJumpB.setVisibility(View.VISIBLE);
         // display calories
-        if (seconds != 0) {
-            counter.setText(String.format("%.02f Cal.", caloriesPerMin * myweight * seconds/60));
+        if (accumulatedDuration != 0) {
+            long avgSpeed = count * 60 / accumulatedDuration;
+            if ( avgSpeed >= 145)
+                caloriesPerMin = 0.089;
+            else if (avgSpeed >= 125)
+                caloriesPerMin = 0.08;
+            else
+                caloriesPerMin = 0.076;
+
+            counter.setText(String.format("%.02f Cal.", caloriesPerMin * myweight * accumulatedDuration/60));
         }
 
         amIRunning = false;
+        swStarted = false;
     }
 
     public void onResumeJumpClicked(View v) {
         pauseJumpB.setVisibility(View.VISIBLE);
         resumeJumpB.setVisibility(View.INVISIBLE);
+        startTime = System.currentTimeMillis();
         amIRunning = true;
+        swStarted = true;
     }
 
     Runnable mStatusChecker = new Runnable() {
@@ -167,6 +183,17 @@ public class activity_StartJump extends AppCompatActivity {
             try {
                 if (amIRunning)
                     startCounting(myJump.myjumpsound);
+                if (swStarted) {
+                    if (swCycles == 0) {
+                        seconds = (System.currentTimeMillis() - startTime) / 1000;
+                        accumulatedDuration++;
+                        if (accumulatedDuration != 0)
+                            sw.setText(String.format("%02d:%02d  %3d", accumulatedDuration / 60, accumulatedDuration % 60, count * 60 / accumulatedDuration));
+
+                        swCycles = 50; // it is 20 ms timer so 50 time of the cycle
+                    } else
+                        swCycles--;
+                }
             } finally {
                 // 100% guarantee that this always happens, even if
                 // your update method throws an exception
