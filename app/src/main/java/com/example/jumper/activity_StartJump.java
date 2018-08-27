@@ -185,8 +185,9 @@ public class activity_StartJump extends AppCompatActivity {
                     startCounting(myJump.myjumpsound);
                 if (swStarted) {
                     if (swCycles == 0) {
-                        seconds = (System.currentTimeMillis() - startTime) / 1000;
+                        //seconds = (System.currentTimeMillis() - startTime) / 1000;
                         accumulatedDuration++;
+                        counter.setText(count + "");
                         if (accumulatedDuration != 0)
                             sw.setText(String.format("%02d:%02d  %3d", accumulatedDuration / 60, accumulatedDuration % 60, count * 60 / accumulatedDuration));
 
@@ -224,7 +225,7 @@ public class activity_StartJump extends AppCompatActivity {
                 if (inJump) {
                     // capture the fading off amplitude
                     count++;
-                    counter.setText(count + "");
+                    //counter.setText(count + "");
                     tempJump.add(amplitude);
                     if (enableDebug) {
                         System.out.println(count);
@@ -245,7 +246,7 @@ public class activity_StartJump extends AppCompatActivity {
                     if (amplitude > AMPLITUDE_THRESHOLD_HIGH) { // record the new sound
                         if (tempJump.size() > 1) { // print the leading jump sound
                             count++; // as the previous sound will not tampering off
-                            counter.setText(count + "");
+                            //counter.setText(count + "");
                             if (enableDebug) {
                                 System.out.println(count);
                                 System.out.println(tempJump);
