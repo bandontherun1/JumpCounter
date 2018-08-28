@@ -136,8 +136,8 @@ public class activity_StartJump extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT", true);
         startActivity(intent);
-        finishAffinity();
-        //super.finishAffinity();
+        //this.finishActivity();
+        super.finishAffinity();
 
     }
 

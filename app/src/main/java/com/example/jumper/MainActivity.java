@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
-            finish();
+            finishAndRemoveTask();
         }
 
         setContentView(R.layout.activity_main);
