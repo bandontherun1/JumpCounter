@@ -88,7 +88,7 @@ public class activity_StartJump extends AppCompatActivity {
         sw = findViewById(R.id.stopWatch);
         sw.setTextSize(80);
         sw.setGravity(View.TEXT_ALIGNMENT_GRAVITY);
-        stopWatchHandler = new Handler();
+        //stopWatchHandler = new Handler();
 
     }
 
@@ -97,7 +97,7 @@ public class activity_StartJump extends AppCompatActivity {
         jumpStopB.setVisibility(View.VISIBLE);
         pauseJumpB.setVisibility(View.VISIBLE);
         restartB.setVisibility(View.VISIBLE);
-        startTime = System.currentTimeMillis();
+        //startTime = System.currentTimeMillis();
         sw.setVisibility(View.VISIBLE);
 
         if (myJump != null) {
@@ -118,32 +118,33 @@ public class activity_StartJump extends AppCompatActivity {
         stopRepeatingTask();
         getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        jumpStopB.setVisibility(View.INVISIBLE);
-        pauseJumpB.setVisibility(View.INVISIBLE);
-        restartB.setVisibility(View.INVISIBLE);
-        resumeJumpB.setVisibility(View.INVISIBLE);
-        stopWatchHandler.removeCallbacks(stopWatchRunnable);
+        //jumpStopB.setVisibility(View.INVISIBLE);
+        //pauseJumpB.setVisibility(View.INVISIBLE);
+        //restartB.setVisibility(View.INVISIBLE);
+        //resumeJumpB.setVisibility(View.INVISIBLE);
+        //stopWatchHandler.removeCallbacks(stopWatchRunnable);
         swStarted = false;
-        sw.setVisibility(View.INVISIBLE);
+        //sw.setVisibility(View.INVISIBLE);
 
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        this.finishAffinity();
-        super.finishAffinity();
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT", true);
         startActivity(intent);
+        finishAffinity();
+        //super.finishAffinity();
 
     }
 
     public void onRestartClicked(View v) {
         count = 0;
         counter.setText("0");
-        startTime = System.currentTimeMillis();
+        //startTime = System.currentTimeMillis();
         accumulatedDuration = 0;
         //sw.setText("00:00    0");
         sw.setText(R.string.stopWatchZero);
@@ -172,7 +173,7 @@ public class activity_StartJump extends AppCompatActivity {
     public void onResumeJumpClicked(View v) {
         pauseJumpB.setVisibility(View.VISIBLE);
         resumeJumpB.setVisibility(View.INVISIBLE);
-        startTime = System.currentTimeMillis();
+        //startTime = System.currentTimeMillis();
         amIRunning = true;
         swStarted = true;
     }
